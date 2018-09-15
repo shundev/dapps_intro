@@ -50,13 +50,10 @@ const contractInfo = {
 const gas = 3000000;
 const gasPrice = 10000000000;
 
-let web3;
 let account;
 let contract;
 
 function main() {
-	web3 = new Web3(window.web3.currentProvider);
-
 	window.web3.eth.getAccounts((err, result) => {
 		account = result[0];
 		document.getElementById("account").innerText = account;
@@ -90,3 +87,4 @@ window.addEventListener("load", main);
 		</script>
 	</body>
 </HTML>
+
