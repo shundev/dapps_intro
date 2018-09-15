@@ -2,7 +2,15 @@
 
 Minimum sample code that shows how to connect web pages to contracts on the Ethereum blockchain.
 
+Simple message storage contract.
+
 The web page is written in **pure** HTML and Javascript.
+
+# Live Demo
+
+Hosted on Github
+
+<https://shunsukehondo.github.io/dapps_intro/>
 
 # Run
 
