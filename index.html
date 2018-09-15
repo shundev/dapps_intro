@@ -1,0 +1,92 @@
+<!doctype HTML>
+<HTML>
+	<body>
+		<h1>Hello Dapps!</h1>
+		<h2 id="account"></h2>
+		<h2 id="message"></h2>
+		<form id="messageForm">
+			<input type="text" id="newMessage" />
+			<input type="submit" />
+		</form>
+		<script>
+
+const contractInfo = {
+	Tutorial: {
+		address: "0x2df5ccff9275833a5a21b72f0b22d4d7393588ad",
+		abi:
+[
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_message",
+				"type": "string"
+			}
+		],
+		"name": "setMessage",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "message",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
+	}
+}
+
+const gas = 3000000;
+const gasPrice = 10000000000;
+
+let web3;
+let account;
+let contract;
+
+function main() {
+	web3 = new Web3(window.web3.currentProvider);
+
+	window.web3.eth.getAccounts((err, result) => {
+		account = result[0];
+		document.getElementById("account").innerText = account;
+
+		initContract();
+
+		document.getElementById("messageForm").addEventListener("submit", onSubmit);
+
+		setInterval(updateMessage, 1000);
+	});
+}
+
+function initContract() {
+	contract = window.web3.eth.contract(contractInfo.Tutorial.abi).at(contractInfo.Tutorial.address);
+}
+
+function updateMessage() {
+	contract.message({from: account}, (err, result) => {
+	    document.getElementById("message").innerText = result;
+	});
+}
+
+function onSubmit(e) {
+	e.preventDefault();
+	const message = document.getElementById("newMessage").value;
+	contract.setMessage(message, {from: account, gas: gas, gasPrice: gasPrice}, (err, result) => {});
+	document.getElementById("newMessage").value = "";
+}
+
+window.addEventListener("load", main);
+		</script>
+	</body>
+</HTML>
